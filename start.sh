@@ -1,7 +1,10 @@
 #!/bin/bash
+source /app/config.sh
 
 service ssh start
-wget https://getfrp.sh/d/frpc_linux_amd64
-mv frpc_linux_amd64 frpc
-chmod +x frpc
-./frpc -f 46cd9fa6e825294d:1723230
+service nginx start
+
+echo "set ngrok token: $NGROK_TOKEN"
+ngrok authtoken $NGROK_TOKEN
+echo "start ngrok service"
+ngrok tcp 22 --log=stdout > ngrok.log
